@@ -1,14 +1,14 @@
 
-#Helm install of sample app on IKS
-data "terraform_remote_state" "infra" {
-  backend = "remote"
-  config = {
-    organization = "mel-ciscolabs-com"
-    workspaces = {
-      name = "cg-iks-infra-demo"
-    }
-  }
-}
+# #Helm install of sample app on IKS
+# data "terraform_remote_state" "infra" {
+#   backend = "remote"
+#   config = {
+#     organization = "mel-ciscolabs-com"
+#     workspaces = {
+#       name = "cg-iks-infra-demo"
+#     }
+#   }
+# }
 
 resource helm_release helloiksfrtfcb {
   name       = "helloiksapp"
@@ -22,5 +22,9 @@ resource helm_release helloiksfrtfcb {
 }
 
 locals {
-  kube_config = yamldecode(data.terraform_remote_state.iksws.outputs.kube_config)
+  kube_config = yamldecode(base64decode(data.intersight_kubernetes_cluster.iks.results[0].kube_config))
+}
+
+data "intersight_kubernetes_cluster" "iks" {
+    name = "cg-iks-prod"
 }
