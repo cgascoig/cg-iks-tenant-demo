@@ -23,6 +23,13 @@ resource helm_release helloiksfrtfcb {
   }
 }
 
+resource helm_release iwo {
+  name       = "iwocollector"
+  namespace = "default"
+
+  chart = "http://10.67.17.230/cgascoig/iwok8scollector-0.6.2.tgz"
+}
+
 locals {
 #   kube_config = yamldecode(base64decode(data.intersight_kubernetes_cluster.iks.results[0].kube_config))
     kube_config = yamldecode(base64decode(data.terraform_remote_state.infra.outputs.kube_config))
