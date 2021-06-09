@@ -32,3 +32,4 @@ resource helm_release iwo {
 locals {
     kube_config = yamldecode(base64decode(data.terraform_remote_state.infra.outputs.kube_config))
 }
+ 
